@@ -1,15 +1,38 @@
-import { EventEmitter } from '@angular/core';
+import { ShoppingListService } from './../shopping-list/shopping-list.service';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Recipe } from './recipe.model';
+import { Ingredient } from '../shared/ingredient.model';
 
-
+@Injectable()
 export class RecipeService {
   recipeSelected = new EventEmitter<Recipe>();
   private recipes: Recipe[] = [
-    new Recipe('A test Recipe', 'This is simple a test', 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2235&q=80'),
-    new Recipe('A test Recipe', 'This is simple a test', 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2235&q=80')
+    new Recipe(
+      'Tasty Schnitzel',
+      'Suoer testy meal!',
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Wiener-Schnitzel02.jpg/800px-Wiener-Schnitzel02.jpg',
+      [
+        new Ingredient('Meat', 1),
+        new Ingredient('French Fries', 20)
+      ]),
+    new Recipe(
+      'Big fat burger',
+      'What else you need to say',
+      'https://img-s-msn-com.akamaized.net/tenant/amp/entityid/BBKydwG.img?h=768&w=1080&m=6&q=60&o=t&l=f',
+      [
+        new Ingredient('Buns', 2),
+        new Ingredient('Meat', 2),
+        new Ingredient('Cheese', 1)
+      ])
   ];
+
+  constructor(private slService: ShoppingListService) {}
 
   getRecipes() {
     return this.recipes.slice();
+  }
+
+  addIngredientsToShopingList(ingredients: Ingredient[]) {
+    this.slService.addIngredients(ingredients);
   }
 }
